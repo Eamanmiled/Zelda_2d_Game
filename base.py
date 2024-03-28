@@ -37,6 +37,7 @@ def center(sprite_position):
             else:
                 print(' ', end="")
         print()
+    print(" H   U   B ")
 # prints box 1
 
 
@@ -60,10 +61,14 @@ def left(sprite_position):
                 print('*', end="")
             # the box
             # items in room
-            elif x == 5 and y == 7:
+            elif x == 1 and y == 5:
                 print("C", end="")
-            elif x == 5 and y == 6:
+            elif x == 3 and y == 5:
                 print("M", end="")
+            elif y in [4, 6]:
+                print('*', end="")
+            elif y == 5 and x in [4, 6, 8,]:
+                print('|', end="")
             # items in room
             # the blank space
             else:
@@ -137,7 +142,7 @@ def right(sprite_position):
                 print('*', end="")
             # the box
             # items in room
-            elif x == 9 and y == 5:
+            elif x == 9 and y in [1, 9]:
                 print("C", end="")
             elif x == 6 and y == 5:
                 print("M", end="")
@@ -316,8 +321,14 @@ def move_sprite(position, direction):
         maps = "2"
         return maps
     elif direction == "w" and y == 1 and x == 5 and num == 1:  # up map
-        maps = "5"
-        return maps
+        if spyro.amount_keys() == 3:
+            print("you unlock the bulky door and step through")
+            time.sleep(3)
+            maps = "5"
+            return maps
+        else:
+            print("you done have the keys to open this door yet\ngo get them monsters!!")
+            time.sleep(2)
     elif direction == "d" and y == 5 and x == 9 and num == 1:  # right map
         maps = "4"
         return maps
@@ -332,7 +343,7 @@ def move_sprite(position, direction):
     elif direction == "w" and y == 1 and x == 5 and num == 3:  # down->hub map
         maps = "1"
         return maps
-    if direction == "a" and y == 5 and x == 1 and num == 4:  # right->hub map
+    elif direction == "a" and y == 5 and x == 1 and num == 4:  # right->hub map
         maps = "1"
         return maps
     # this is for returning to hub-world
@@ -366,8 +377,31 @@ def move_sprite(position, direction):
         input("press anything to open chest: ")
         chest()
         y -= 1
-    # end of the interact chest code
-
+    # end of the interact chest
+    # for wall interact
+    elif num == 4 and y == 5 and x in [1, 2, 3, 4, 5, 6] and direction in ["w", "s"]:
+        print("that's a wall")
+        time.sleep(2)
+    elif num == 4 and y in [1, 2, 3, 4, 6, 7, 8, 9] and x == 7 and direction == "a":
+        print("that's a wall")
+        time.sleep(2)
+    elif num == 2 and y == 5 and direction in ["w", "s"]:
+        print("that's a wall")
+        time.sleep(2)
+    elif num == 5 and y == 5 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "w":
+        print("that's a wall")
+        time.sleep(2)
+    elif num == 5 and y == 3 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "s":
+        print("that's a wall")
+        time.sleep(2)
+    elif num == 5 and y == 4 and x == 5 and direction in ["a", "d"]:
+        print("that's a wall")
+        time.sleep(2)
+    elif (num == 3 and y in [1, 5] and x in [2, 3, 4, 5, 6, 7, 8] and direction in ["s", "w"] or num == 3 and y == 5 and
+          x == 9 and direction == "s"):
+        print("that's a wall")
+        time.sleep(2)
+    # for wall interact
     # moving code
     elif direction == 'w' and y > 1:
         y -= 1
@@ -398,6 +432,7 @@ class Entity:
     defe = 100
     att = 100
     bank = 0
+    key = 3
 
     def attack(self, increaseordecrease, amount):
         if increaseordecrease == "Increase":
@@ -423,14 +458,21 @@ class Entity:
         else:
             self.bank = self.bank - amount
 
+    def keys(self):
+        self.key += 1
+
     def return_player_stats(self):
         print("your hp is " + str(self.hp))
         print("your defence is " + str(self.defe))
         print("your attack is " + str(self.att))
         print("you have " + str(self.bank) + " coins")
+        print("you have " + str(self.key) + "/3 keys")
 
     def get_balance(self):  # Retrieves the entities account balance
         return self.bank
+
+    def amount_keys(self):
+        return self.key
 
 # this is for all entity's in game to get assigned stats
 

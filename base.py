@@ -401,6 +401,12 @@ def move_sprite(position, direction):
           x == 9 and direction == "s"):
         print("that's a wall")
         time.sleep(2)
+    elif num == 3 and y in [2, 6] and x in [1, 9] and direction == "d" or x == 9 and y == 4 and direction == "a":
+        print("that's a wall")
+        time.sleep(2)
+    elif num == 3 and y == 7 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "s":
+        print("that's a wall")
+        time.sleep(2)
     # for wall interact
     # moving code
     elif direction == 'w' and y > 1:

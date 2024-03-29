@@ -2,6 +2,7 @@ import random
 import time
 
 
+# environment printing
 # prints box 1
 def center(sprite_position):
     size = 11
@@ -67,8 +68,6 @@ def left(sprite_position):
                 print("M", end="")
             elif y in [4, 6]:
                 print('*', end="")
-            elif y == 5 and x in [4, 6, 8,]:
-                print('|', end="")
             # items in room
             # the blank space
             else:
@@ -95,7 +94,6 @@ def down(sprite_position):
                 print('*', end="")
             elif x == size - 1:
                 print('*', end="")
-
             # the box
             # items in room
             elif x == 9 and y == 4:
@@ -194,28 +192,77 @@ def up(sprite_position):
                 print(' ', end="")
         print()
 # prints box 5
+# environment printing
+
+
+# I have created this class to clean up the code
+class CodeCleanUp:
+
+    def wall(self):
+        print("that's a wall")
+        time.sleep(2)
+
+    def spyrodefend(self):
+        spyro.health("Increase", 25)
+        spyro.defence("Increase", 3)
+        print("Your HP is now " + str(spyro.get_specfic("hp")))
+        print("Your Defence is now " + str(spyro.get_specfic("defe")))
+        time.sleep(1)
+
+    def encounter_with_death(self):
+        choice = input("You have died...\nPay the angel of death 25 coins to come back?(Y/N): ")
+        if choice not in ["Y", "N"]:
+            while choice != "Y" and choice != "N":
+                input("please choose Y or N")
+        if choice == "Y" and spyro.get_balance() < 25:
+            print("The angel appears but you reach for your pocket and see you are short changed\nThe angel shakes"
+                  "his head, reaches out his hand to your shoulder and leads you to eternal damnation")
+            print("THE END\nThank you for playing")
+            time.sleep(9999)
+        elif choice == "Y":
+            print("The angel appears and you hand him 25 coins he whispers in a chilling voice"
+                  "\nT I L L   W E   M E E T   A G A I N")
+            spyro.riches("Decrease", 25)
+            spyro.health("Increase", 101)
+        else:
+            print("The dungeon has bested you spirit and you submit\nAtleast you tried")
+            print("THE END\nThank you for playing")
+            time.sleep(9999)
+# I have created this class to clean up the code
 
 
 # the random chest
-def chest():
-    coins = random.randint(1, 100)  # coin system
-    print("Searching for coins...")
-    time.sleep(4)
-    if coins == 69 or coins == 5 or coins == 89 or coins == 53:
-        print(
-            "You found loot worth " + str(coins) + " coins!\nHead back to the shop to trade them in for some goodies ")
-        print("A spider jumps out at you stinging you and causing " + str(coins / 2) + " damage\n:(")
-        spyro.riches("Decrease", coins / 2)
-        time.sleep(5)
-        return
-    else:
-        print(
-            "You found loot worth " + str(coins) + " coins!\nHead back to the shop to trade them in for some goodies ")
-        spyro.riches("Increase", coins)
-        time.sleep(3)
+class Chests:
+    state = 0
+    coins = random.randint(25, 100)
+
+    def chest(self):
+        if self.state == 0:
+            print("Searching for coins...")
+            time.sleep(4)
+            if self.coins == 69 or self.coins == 89 or self.coins == 53:
+                print(
+                    "You found loot worth " + str(
+                        self.coins) + " coins!\nHead back to the shop to trade them in for some goodies ")
+                print("A spider jumps out at you stinging you and causing " + str(self.coins / 2) + " damage\n:(")
+                spyro.health("Decrease", self.coins / 2)
+                time.sleep(3)
+                self.state += 1
+                return
+            else:
+                print(
+                    "You found loot worth " + str(
+                        self.coins) + " coins!\nHead back to the shop to trade them in for some goodies ")
+                spyro.riches("Increase", self.coins)
+                self.state += 1
+                time.sleep(3)
+        else:
+            print("you longingly stare at the empty chest")
+            time.sleep(3)
+# the random chest
 
 
-# the shop
+# this is for the shop
 def shop(message_condition):
     shopitems = ["Health Elixir", "Better Sword", "Piece of Armour", ]
 
@@ -313,132 +360,171 @@ def shop(message_condition):
         time.sleep(2)
 
 
-# this is the function to move the sprite in boundary and stop him if it's a wall also change maps
-def move_sprite(position, direction):
-    x, y = position
-    # this is for the center map and connections to other worlds
-    if direction == "a" and y == 5 and x == 1 and num == 1:  # left map
-        maps = "2"
-        return maps
-    elif direction == "w" and y == 1 and x == 5 and num == 1:  # up map
-        if spyro.amount_keys() == 3:
-            print("you unlock the bulky door and step through")
-            time.sleep(3)
-            maps = "5"
-            return maps
-        else:
-            print("you done have the keys to open this door yet\ngo get them monsters!!")
+# this is for all fights and each function is named after the fight location/boss
+def fight1():
+    while spyro.get_specfic("hp") > 0 and monster1.get_specfic("hp") > 0:
+        print("----Combat initiated----")
+        print("Your hp is " + str(spyro.get_specfic("hp")))
+        print("The monsters health is " + str(monster1.get_specfic("hp")))
+        print("Would you like to\nAttack(1)\nBoost-Defence by 3 + Regain 25 Health(2)")
+        action = input("Decision(1,2): ")
+        if action not in ["1", "2"]:
+            while action != "1" and action != "2":
+                action = input("Please choose either 1 or 2")
+        if action == "1":
+            spyrosattackstat = spyro.get_specfic("attack")
+            theattack = random.randint(1, spyrosattackstat) - (monster1.get_specfic("defe") / 2)
+            if theattack > 0:
+                theattack = theattack * -1
+            print("you do " + str(theattack) + " damage!")
             time.sleep(2)
-    elif direction == "d" and y == 5 and x == 9 and num == 1:  # right map
-        maps = "4"
-        return maps
-    elif direction == "s" and y == 9 and x == 5 and num == 1:  # down map
-        maps = "3"
-        return maps
-    # this is for the center map and connections to other worlds
-    # this is for returning to hub-world
-    elif direction == "d" and y == 5 and x == 9 and num == 2:  # left->hub map
-        maps = "1"
-        return maps
-    elif direction == "w" and y == 1 and x == 5 and num == 3:  # down->hub map
-        maps = "1"
-        return maps
-    elif direction == "a" and y == 5 and x == 1 and num == 4:  # right->hub map
-        maps = "1"
-        return maps
-    # this is for returning to hub-world
-    # this is for the shop
-    elif direction == "d" and x == 8 and y == 7 and num == 1:
-        input("press anything to enter shop: ")
-        shop(message_condition=1)
-        x += 1
-    elif direction == "w" and x == 9 and y == 8 and num == 1:
-        input("press anything to enter shop: ")
-        shop(message_condition=1)
-        y -= 1
-    elif direction == "s" and x == 9 and y == 6 and num == 1:
-        input("press anything to enter shop: ")
-        shop(message_condition=1)
-        y += 1
-    # this is for the chest
-    elif direction == "d" and x == 4 and y == 7 and num == 1:
-        input("press anything to open chest: ")
-        chest()
-        x += 1
-    elif direction == "a" and x == 6 and y == 7 and num == 1:
-        input("press anything to open chest: ")
-        chest()
-        x -= 1
-    elif direction == "s" and x == 5 and y == 6 and num == 1:
-        input("press anything to open chest: ")
-        chest()
-        y += 1
-    elif direction == "w" and x == 5 and y == 8 and num == 1:
-        input("press anything to open chest: ")
-        chest()
-        y -= 1
-    # end of the interact chest
-    # for wall interact
-    elif num == 4 and y == 5 and x in [1, 2, 3, 4, 5, 6] and direction in ["w", "s"]:
-        print("that's a wall")
-        time.sleep(2)
-    elif num == 4 and y in [1, 2, 3, 4, 6, 7, 8, 9] and x == 7 and direction == "a":
-        print("that's a wall")
-        time.sleep(2)
-    elif num == 2 and y == 5 and direction in ["w", "s"]:
-        print("that's a wall")
-        time.sleep(2)
-    elif num == 5 and y == 5 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "w":
-        print("that's a wall")
-        time.sleep(2)
-    elif num == 5 and y == 3 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "s":
-        print("that's a wall")
-        time.sleep(2)
-    elif num == 5 and y == 4 and x == 5 and direction in ["a", "d"]:
-        print("that's a wall")
-        time.sleep(2)
-    elif (num == 3 and y in [1, 5] and x in [2, 3, 4, 5, 6, 7, 8] and direction in ["s", "w"] or num == 3 and y == 5 and
-          x == 9 and direction == "s"):
-        print("that's a wall")
-        time.sleep(2)
-    elif num == 3 and y in [2, 6] and x in [1, 9] and direction == "d" or x == 9 and y == 4 and direction == "a":
-        print("that's a wall")
-        time.sleep(2)
-    elif num == 3 and y == 7 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "s":
-        print("that's a wall")
-        time.sleep(2)
-    # for wall interact
-    # moving code
-    elif direction == 'w' and y > 1:
-        y -= 1
-    elif direction == 's' and y < 9:
-        y += 1
-    elif direction == 'a' and x > 1:
-        x -= 1
-    elif direction == 'd' and x < 9:
-        x += 1
-    # moving code
+            monster1.health("Increase", theattack)
+        elif action == "2":
+            cleanup.spyrodefend()
+        monsterchoice = random.randint(1, 2)
+        if monsterchoice == 1:
+            print("The Monster Attacks")
+            time.sleep(1)
+            monsterattackstat = monster1.get_specfic("attack")
+            theattack = random.randint(1, monsterattackstat) - (spyro.get_specfic("defe") / 2)
+            if theattack > 0:
+                theattack = theattack * -1
+            print("The Monster Does " + str(theattack) + " Damage!")
+            time.sleep(1)
+            spyro.health("Increase", theattack)
+        elif monsterchoice == 2:
+            monster1.health("Increase", 15)
+            monster1.defence("Increase", 3)
+            print("The monster defended and now his hp is " + str(monster1.get_specfic("hp")))
+            print("The monsters defence is now " + str(monster1.get_specfic("defe")))
+            time.sleep(1)
+# this is for the shop
 
-    # "that's a wall" code
-    elif direction == 'a' or "d" and x == 2:  # this is for left
-        print("that's a wall")
-        time.sleep(3)
-    elif direction == 's' or "w" and y == 2 or 8:  # this one is for the bottom and top
-        print("that's a wall")
-        time.sleep(3)
-    # "that's a wall" code
 
-    return x, y
-# this is the function to move the sprite in boundary and stop him if it's a wall
+def fight2():
+    while spyro.get_specfic("hp") > 0 and monster2.get_specfic("hp") > 0:
+        print("----Combat initiated----")
+        print("Your hp is " + str(spyro.get_specfic("hp")))
+        print("The monsters health is " + str(monster2.get_specfic("hp")))
+        print("Would you like to\nAttack(1)\nBoost-Defence by 3 + Regain 25 Health(2)")
+        action = input("Decision(1,2): ")
+        if action not in ["1", "2"]:
+            while action != "1" and action != "2":
+                action = input("Please choose either 1 or 2")
+        if action == "1":
+            spyrosattackstat = spyro.get_specfic("attack")
+            theattack = random.randint(1, spyrosattackstat) - (monster2.get_specfic("defe") / 2)
+            if theattack > 0:
+                theattack = theattack * -1
+            print("you do " + str(theattack) + " damage!")
+            time.sleep(2)
+            monster2.health("Increase", theattack)
+        elif action == "2":
+            cleanup.spyrodefend()
+        monsterchoice = random.randint(1, 2)
+        if monsterchoice == 1:
+            print("The Monster Attacks")
+            time.sleep(1)
+            monsterattackstat = monster2.get_specfic("attack")
+            theattack = random.randint(1, monsterattackstat) - (spyro.get_specfic("defe") / 2)
+            if theattack > 0:
+                theattack = theattack * -1
+            print("The Monster Does " + str(theattack) + " Damage!")
+            time.sleep(1)
+            spyro.health("Increase", theattack)
+        elif monsterchoice == 2:
+            monster2.health("Increase", 15)
+            monster2.defence("Increase", 3)
+            print("The monster defended and now his hp is " + str(monster2.get_specfic("hp")))
+            print("The monsters defence is now " + str(monster2.get_specfic("defe")))
+            time.sleep(1)
+
+
+def fight3():
+    while spyro.get_specfic("hp") > 0 and monster3.get_specfic("hp") > 0:
+        print("----Combat initiated----")
+        print("Your hp is " + str(spyro.get_specfic("hp")))
+        print("The monsters health is " + str(monster3.get_specfic("hp")))
+        print("Would you like to\nAttack(1)\nBoost-Defence by 3 + Regain 25 Health(2)")
+        action = input("Decision(1,2): ")
+        if action not in ["1", "2"]:
+            while action != "1" and action != "2":
+                action = input("Please choose either 1 or 2")
+        if action == "1":
+            spyrosattackstat = spyro.get_specfic("attack")
+            theattack = random.randint(1, spyrosattackstat) - (monster3.get_specfic("defe") / 2)
+            if theattack > 0:
+                theattack = theattack * -1
+            print("you do " + str(theattack) + " damage!")
+            time.sleep(2)
+            monster3.health("Increase", theattack)
+        elif action == "2":
+            cleanup.spyrodefend()
+        monsterchoice = random.randint(1, 2)
+        if monsterchoice == 1:
+            print("The Monster Attacks")
+            time.sleep(1)
+            monsterattackstat = monster3.get_specfic("attack")
+            theattack = random.randint(1, monsterattackstat) - (spyro.get_specfic("defe") / 2)
+            if theattack > 0:
+                theattack = theattack * -1
+            print("The Monster Does " + str(theattack) + " Damage!")
+            time.sleep(1)
+            spyro.health("Increase", theattack)
+        elif monsterchoice == 2:
+            monster3.health("Increase", 15)
+            monster3.defence("Increase", 3)
+            print("The monster defended and now his hp is " + str(monster3.get_specfic("hp")))
+            print("The monsters defence is now " + str(monster3.get_specfic("defe")))
+            time.sleep(1)
+
+
+def bossbattle():
+    while spyro.get_specfic("hp") > 0 and lord_phalp.get_specfic("hp") > 0:
+        print("----Combat initiated----\nThis is it give it your all")
+        print("Your hp is " + str(spyro.get_specfic("hp")))
+        print("The monsters health is " + str(lord_phalp.get_specfic("hp")))
+        print("Would you like to\nAttack(1)\nBoost-Defence by 3 + Regain 25 Health(2)")
+        action = input("Decision(1,2): ")
+        if action not in ["1", "2"]:
+            while action != "1" and action != "2":
+                action = input("Please choose either 1 or 2")
+        if action == "1":
+            spyrosattackstat = spyro.get_specfic("attack")
+            theattack = random.randint(1, spyrosattackstat) - (lord_phalp.get_specfic("defe") / 2)
+            if theattack > 0:
+                theattack = theattack * -1
+            print("you do " + str(theattack) + " damage!")
+            time.sleep(2)
+            lord_phalp.health("Increase", theattack)
+        elif action == "2":
+            cleanup.spyrodefend()
+        monsterchoice = random.randint(1, 2)
+        if monsterchoice == 1:
+            print("The Monster Attacks")
+            time.sleep(1)
+            monsterattackstat = lord_phalp.get_specfic("attack")
+            theattack = random.randint(1, monsterattackstat) - (spyro.get_specfic("defe") / 2)
+            if theattack > 0:
+                theattack = theattack * -1
+            print("The Monster Does " + str(theattack) + " Damage!")
+            time.sleep(1)
+            spyro.health("Increase", theattack)
+        elif monsterchoice == 2:
+            lord_phalp.health("Increase", 15)
+            lord_phalp.defence("Increase", 3)
+            print("The monster defended and now his hp is " + str(lord_phalp.get_specfic("hp")))
+            print("The monsters defence is now " + str(lord_phalp.get_specfic("defe")))
+            time.sleep(1)
+# this is for all fights and each function is named after the fight location/boss
 
 
 # this is for all entity's in game to get assigned stats
 class Entity:
-    hp = 100
-    defe = 100
-    att = 100
+    hp = 100  # stats
+    defe = 50
+    att = 70
     bank = 0
-    key = 3
 
     def attack(self, increaseordecrease, amount):
         if increaseordecrease == "Increase":
@@ -464,33 +550,196 @@ class Entity:
         else:
             self.bank = self.bank - amount
 
-    def keys(self):
-        self.key += 1
-
     def return_player_stats(self):
         print("your hp is " + str(self.hp))
         print("your defence is " + str(self.defe))
         print("your attack is " + str(self.att))
         print("you have " + str(self.bank) + " coins")
-        print("you have " + str(self.key) + "/3 keys")
 
     def get_balance(self):  # Retrieves the entities account balance
         return self.bank
 
-    def amount_keys(self):
-        return self.key
-
+    def get_specfic(self, item):
+        if item == "hp":
+            return self.hp
+        elif item == "defe":
+            return self.defe
+        elif item == "attack":
+            return self.att
 # this is for all entity's in game to get assigned stats
 
 
+# this is the function to move the sprite in boundary and stop him if it's a wall also change maps and interactions
+def move_sprite(position, direction):
+    x, y = position
+
+    # this is for the center map and connections to other worlds
+    if direction == "a" and y == 5 and x == 1 and num == 1:  # left map
+        maps = "2"
+        return maps
+    elif direction == "w" and y == 1 and x == 5 and num == 1:  # up map
+        if monster1.get_specfic("hp") <= 0 and monster2.get_specfic("hp") <= 0 and monster3.get_specfic("hp") <= 0:
+            print("you unlock the bulky door and step through")
+            time.sleep(3)
+            maps = "5"
+            return maps
+        else:
+            print("you done have the keys to open this door yet\ngo get them monsters!!")
+            time.sleep(2)
+    elif direction == "d" and y == 5 and x == 9 and num == 1:  # right map
+        maps = "4"
+        return maps
+    elif direction == "s" and y == 9 and x == 5 and num == 1:  # down map
+        maps = "3"
+        return maps
+    # this is for the center map and connections to other worlds
+
+    # this is for returning to hub-world
+    elif direction == "d" and y == 5 and x == 9 and num == 2:  # left->hub map
+        maps = "1"
+        return maps
+    elif direction == "w" and y == 1 and x == 5 and num == 3:  # down->hub map
+        maps = "1"
+        return maps
+    elif direction == "a" and y == 5 and x == 1 and num == 4:  # right->hub map
+        maps = "1"
+        return maps
+    # this is for returning to hub-world
+
+    # this is for the shop
+    elif direction == "d" and x == 8 and y == 7 and num == 1:
+        input("press anything to enter shop: ")
+        shop(message_condition=1)
+        x += 1
+    elif direction == "w" and x == 9 and y == 8 and num == 1:
+        input("press anything to enter shop: ")
+        shop(message_condition=1)
+        y -= 1
+    elif direction == "s" and x == 9 and y == 6 and num == 1:
+        input("press anything to enter shop: ")
+        shop(message_condition=1)
+        y += 1
+    # this is for the shop
+
+    # this is for monster fight # -------------------------
+    elif direction == "d" and x == 5 and y == 5 and num == 4:
+        fight1()  # -------right fight
+        if spyro.get_specfic("hp") <= 0:
+            cleanup.encounter_with_death()
+        else:
+            x += 1
+            print("you stand atop your defeated fow victorious and with their key in your safekeeping")
+            time.sleep(2)
+    elif x == 4 and y == 5 and direction == "a" and num == 2:
+        fight2()
+        if spyro.get_specfic("hp") <= 0:
+            cleanup.encounter_with_death()
+        else:
+            x -= 1
+            print("you stand atop your defeated fow victorious and with their key in your safekeeping")
+            time.sleep(2)
+    elif x == 5 and y == 7 and direction == "s" and num == 3:
+        fight3()
+        if spyro.get_specfic("hp") <= 0:
+            cleanup.encounter_with_death()
+        else:
+            y += 1
+            print("you stand atop your defeated fow victorious and with their key in your safekeeping")
+            time.sleep(2)
+    elif x == 5 and y == 5 and direction == "w" and num == 5:
+        bossbattle()
+        if spyro.get_specfic("hp") <= 0:
+            cleanup.encounter_with_death()
+        else:
+            y += 1
+            print("you stand atop your defeated fow victorious and see loot and your dog")
+            print("the end")
+            print("thanks for playing")
+            time.sleep(9999)
+    # this is for monster fight # -------------------------
+
+    # this is for the chests
+    elif direction == "d" and x == 4 and y == 7 and num == 1:
+        hubchest.chest()
+    elif direction == "a" and x == 6 and y == 7 and num == 1:
+        hubchest.chest()
+    elif direction == "s" and x == 5 and y == 6 and num == 1:
+        hubchest.chest()
+    elif direction == "w" and x == 5 and y == 8 and num == 1:
+        hubchest.chest()
+    elif direction == "a" and x == 2 and y == 5 and num == 2:
+        leftchest.chest()
+    elif direction == "s" and x == 5 and y == 8 and num == 3:
+        downchest.chest()
+    elif direction == "s" and x == 9 and y == 8 and num == 4 or direction == "d" and x == 8 and y == 9:
+        rightchest1.chest()
+    elif direction == "w" and x == 9 and y == 2 and num == 4 or direction == "d" and x == 8 and y == 1:
+        rightchest2.chest()
+    # this is for the chests
+
+    # for wall interact aka you hit a wall dummy
+    elif num == 4 and y == 5 and x in [1, 2, 3, 4, 5, 6] and direction in ["w", "s"]:
+        cleanup.wall()
+    elif num == 4 and y in [1, 2, 3, 4, 6, 7, 8, 9] and x == 7 and direction == "a":
+        cleanup.wall()
+    elif num == 2 and y == 5 and direction in ["w", "s"]:
+        cleanup.wall()
+    elif num == 5 and y == 5 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "w":
+        cleanup.wall()
+    elif num == 5 and y == 3 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "s":
+        cleanup.wall()
+    elif num == 5 and y == 4 and x == 5 and direction in ["a", "d"]:
+        cleanup.wall()
+    elif (num == 3 and y in [1, 5] and x in [2, 3, 4, 5, 6, 7, 8] and direction in ["s", "w"] or num == 3 and y == 5 and
+          x == 9 and direction == "s"):
+        cleanup.wall()
+    elif num == 3 and y in [2, 6] and x in [1, 9] and direction == "d" or x == 9 and y == 4 and direction == "a":
+        cleanup.wall()
+    elif num == 3 and y == 7 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "s":
+        cleanup.wall()
+    elif num == 3 and y == 5 and x < 9 and direction == "w" or num == 3 and y == 5 and x > 1 and direction == "s":
+        cleanup.wall()
+    elif num == 3 and y == 7 and x > 1 and direction == "w":
+        cleanup.wall()
+    elif num == 3 and x == 5 and y in [8, 9] and direction in ["a", "d"]:
+        cleanup.wall()
+    elif num == 3 and y == 3 and x < 9 and direction == "s" or num == 3 and y == 3 and x > 1 and direction == "w":
+        cleanup.wall()
+    # for wall interact aka you hit a wall dummy
+
+    # basic moving code
+    elif direction == 'w' and y > 1:
+        y -= 1
+    elif direction == 's' and y < 9:
+        y += 1
+    elif direction == 'a' and x > 1:
+        x -= 1
+    elif direction == 'd' and x < 9:
+        x += 1
+    # basicmoving code
+
+    # "that's a wall" code
+    elif direction == 'a' or "d" and x == 2:  # this is for left
+        cleanup.wall()
+    elif direction == 's' or "w" and y == 2 or 8:  # this one is for the bottom and top
+        cleanup.wall()
+    # "that's a wall" code
+
+    return x, y
+# this is the function to move the sprite in boundary and stop him if it's a wall also change maps and interactions
+
+
 # ---------------------------------------------------------------------------------------------------------
-# INITIAL POS
+
+
+# Where he starts
 sprite_position = (5, 5)
 # difficulty selection
-print("You are spyro\nBowser has kidnapped your dog\ngo on a murderous rampage in his dungeon and save that pup\n"
-      "Bowser locked the door to his room but his three monster guards have the keys\nkill them to take the keys")
-time.sleep(0)
-difficulty = input("Enter E to play on easy or H to play on hard: ")
+print("You are Spyro\nThe Evil Lord Phalp has kidnapped your dog and is holding him randsom\nGo on a murderous rampage "
+      "in his dungeon and save that pup\nThe Evil Lord Phalp locked the door to his vault but his three "
+      "monster guards have the keys\nKill them to take the keys and get your dog back!!!")
+time.sleep(3)
+difficulty = input("Enter E to play on Easy or H to play on Hard: ")
 if difficulty != "E" or "H":
     while difficulty != "E" and difficulty != "H":
         difficulty = input("Invalid selection\n Press either H or E then press enter: ")
@@ -498,11 +747,18 @@ if difficulty != "E" or "H":
 spyro = Entity()
 monster1 = Entity()
 monster2 = Entity()
+monster3 = Entity()
 lord_phalp = Entity()
+hubchest = Chests()
+leftchest = Chests()
+rightchest1 = Chests()
+rightchest2 = Chests()
+downchest = Chests()
+cleanup = CodeCleanUp()
 # difficulty activated
 if difficulty == "E":
     spyro.health("Increase", 30)
-    spyro.attack("Increase", 30)
+    spyro.attack("Increase", 300)  # for easy demo-----
     spyro.defence("Increase", 30)
 
     monster1.health("Decrease", 15)
@@ -519,23 +775,27 @@ if difficulty == "E":
 elif difficulty == "H":
     monster1.health("Increase", 15)
     monster1.attack("Decrease", 30)  # a brick
-    monster1.defence("Decrease", 15)
+    monster1.defence("Increase", 15)
 
-    monster2.health("Decrease", 15)
-    monster2.attack("Increase", 15)  # speed demon
+    monster2.health("Decrease", 30)
+    monster2.attack("Increase", 20)  # speed demon
     monster2.defence("Increase", 15)
 
-    lord_phalp.health("Decrease", 15)
-    lord_phalp.attack("Decrease", 15)  # jack of all trades
-    lord_phalp.defence("Decrease", 15)
+    monster2.health("Increase", 5)
+    monster2.attack("Increase", 5)  # jack of all trades
+    monster2.defence("Increase", 5)
+
+    lord_phalp.health("Increase", 35)
+    lord_phalp.attack("Increase", 35)  # B O S S
+    lord_phalp.defence("Increase", 35)
 
 # CORE GAME LOOP
-num = 1
+num = 1  # start in world 1
 while True:
     if num == 1:
         while True:
             center(sprite_position)
-            move = input("check stats = stat\nMove sprite (w, a, s, d): ")  # start map
+            move = input("check stats = stat\nMove sprite (w, a, s, d): ")  # Hub map
             if move in ['w', 'a', 's', 'd']:
                 sprite_position = move_sprite(sprite_position, move)
                 if sprite_position == "2" or sprite_position == "3" or sprite_position == "4" or sprite_position == "5":
@@ -547,7 +807,7 @@ while True:
             else:
                 print("Invalid move. Enter w,a,s,d.")
                 time.sleep(2)
-    elif num == 2:
+    elif num == 2:  # switch to left map mode
         sprite_position = (9, 5)
         while True:
             left(sprite_position)
@@ -564,7 +824,7 @@ while True:
             else:
                 print("Invalid move. Enter w,a,s,d.")
                 time.sleep(2)
-    elif num == 3:
+    elif num == 3:  # switch to down map mode
         sprite_position = (5, 1)
         while True:
             down(sprite_position)
@@ -581,7 +841,7 @@ while True:
             else:
                 print("Invalid move. Enter w,a,s,d.")
                 time.sleep(2)
-    elif num == 4:
+    elif num == 4:  # switch to right map mode
         sprite_position = (1, 5)
         while True:
             right(sprite_position)
@@ -598,7 +858,7 @@ while True:
             else:
                 print("Invalid move. Enter w,a,s,d.")
                 time.sleep(2)
-    elif num == 5:
+    elif num == 5:  # switch to up map mode
         sprite_position = (5, 9)
         while True:
             up(sprite_position)

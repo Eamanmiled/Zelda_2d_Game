@@ -3,7 +3,7 @@ import time
 
 
 # environment printing
-# prints box 1
+# prints hub
 def center(sprite_position):
     size = 11
     for y in range(size):
@@ -11,19 +11,9 @@ def center(sprite_position):
             if sprite_position == (x, y):
                 print('p', end="")
             # the box
-            elif x < 5 and y == 0:
+            elif x < 5 and y == 0 or x > 5 and y == 0 or y < 5 and x == 0 or y > 5 and x == 0:
                 print('*', end="")
-            elif x > 5 and y == 0:
-                print('*', end="")
-            elif y < 5 and x == 0:
-                print('*', end="")
-            elif y > 5 and x == 0:
-                print('*', end="")
-            elif x < 5 and y == size - 1:
-                print('*', end="")
-            elif x > 5 and y == size - 1:
-                print('*', end="")
-            elif y < 5 and x == size - 1:
+            elif x < 5 and y == size - 1 or x > 5 and y == size - 1 or y < 5 and x == size - 1:
                 print('*', end="")
             elif y > 5 and x == size - 1:
                 print('*', end="")
@@ -39,10 +29,10 @@ def center(sprite_position):
                 print(' ', end="")
         print()
     print(" H   U   B ")
-# prints box 1
+# prints hub
 
 
-# prints box 2
+# prints left
 def left(sprite_position):
     size = 11
     for y in range(size):
@@ -50,15 +40,7 @@ def left(sprite_position):
             if sprite_position == (x, y):
                 print('p', end="")
             # the box
-            elif y == 0:
-                print('*', end="")
-            elif x == 0:
-                print('*', end="")
-            elif y == size - 1:
-                print('*', end="")
-            elif y < 5 and x == size - 1:
-                print('*', end="")
-            elif y > 5 and x == size - 1:
+            elif y == 0 or x == 0 or y == size - 1 or y < 5 and x == size - 1 or y > 5 and x == size - 1:
                 print('*', end="")
             # the box
             # items in room
@@ -73,10 +55,10 @@ def left(sprite_position):
             else:
                 print(' ', end="")
         print()
-# prints box 2
+# prints left
 
 
-# prints box 3
+# prints down
 def down(sprite_position):
     size = 11
     for y in range(size):
@@ -84,15 +66,7 @@ def down(sprite_position):
             if sprite_position == (x, y):
                 print('p', end="")
             # the box
-            elif x == 0:
-                print('*', end="")
-            elif x < 5 and y == 0:
-                print('*', end="")
-            elif x > 5 and y == 0:
-                print('*', end="")
-            elif y == size - 1:
-                print('*', end="")
-            elif x == size - 1:
+            elif x == 0 or x < 5 and y == 0 or x > 5 and y == 0 or y == size - 1 or x == size - 1:
                 print('*', end="")
             # the box
             # items in room
@@ -117,10 +91,10 @@ def down(sprite_position):
             else:
                 print(' ', end="")
         print()
-# prints box 3
+# prints down
 
 
-# prints box 4
+# prints down
 def right(sprite_position):
     size = 11
     for y in range(size):
@@ -128,15 +102,7 @@ def right(sprite_position):
             if sprite_position == (x, y):
                 print('p', end="")
             # the box
-            elif y == 0:
-                print('*', end="")
-            elif y < 5 and x == 0:
-                print('*', end="")
-            elif y > 5 and x == 0:
-                print('*', end="")
-            elif y == size - 1:
-                print('*', end="")
-            elif x == size - 1:
+            elif y == 0 or y < 5 and x == 0 or y > 5 and x == 0 or y == size - 1 or x == size - 1:
                 print('*', end="")
             # the box
             # items in room
@@ -155,10 +121,10 @@ def right(sprite_position):
             else:
                 print(' ', end="")
         print()
-# prints box 4
+# prints down
 
 
-# prints box 5
+# prints up
 def up(sprite_position):
     size = 11
     for y in range(size):
@@ -191,7 +157,7 @@ def up(sprite_position):
             else:
                 print(' ', end="")
         print()
-# prints box 5
+# prints up
 # environment printing
 
 
@@ -214,21 +180,47 @@ class CodeCleanUp:
         if choice not in ["Y", "N"]:
             while choice != "Y" and choice != "N":
                 input("please choose Y or N")
-        if choice == "Y" and spyro.get_balance() < 25:
-            print("The angel appears but you reach for your pocket and see you are short changed\nThe angel shakes"
+        if choice == "Y" and spyro.get_specfic("bank") < 25:
+            print("The angel appears, but you reach for your pocket and see you are short changed\nThe angel shakes"
                   "his head, reaches out his hand to your shoulder and leads you to eternal damnation")
             print("THE END\nThank you for playing")
             time.sleep(9999)
         elif choice == "Y":
-            print("The angel appears and you hand him 25 coins he whispers in a chilling voice"
+            print("The angel appears and you hand him 25 coins, he whispers in a chilling voice"
                   "\nT I L L   W E   M E E T   A G A I N")
             spyro.riches("Decrease", 25)
             spyro.health("Increase", 101)
         else:
-            print("The dungeon has bested you spirit and you submit\nAtleast you tried")
+            print("The dungeon has bested your spirit and you submit\nAtleast you tried")
             print("THE END\nThank you for playing")
             time.sleep(9999)
+
+    def end(self):
+        print("The End")
+        print("Thanks for playing")
+        time.sleep(9999)
 # I have created this class to clean up the code
+
+
+# minigame
+class Minigame:
+    choice = 0
+
+    def jewel(self):
+
+        self.choice = 1
+        self.escape_cave()
+    def chain(self):
+
+        self.escape_cave()
+
+    def escape_cave(self):
+        if self.choice == 1:
+
+
+        else:
+            blah blah
+# minigame
 
 
 # the random chest
@@ -243,8 +235,8 @@ class Chests:
             if self.coins == 69 or self.coins == 89 or self.coins == 53:
                 print(
                     "You found loot worth " + str(
-                        self.coins) + " coins!\nHead back to the shop to trade them in for some goodies ")
-                print("A spider jumps out at you stinging you and causing " + str(self.coins / 2) + " damage\n:(")
+                        self.coins) + " coins!\nHead back to the shop to trade them in for some equipment")
+                print("A spider jumps out at you! stinging you and causing " + str(self.coins / 2) + " damage\n:(")
                 spyro.health("Decrease", self.coins / 2)
                 time.sleep(3)
                 self.state += 1
@@ -252,7 +244,7 @@ class Chests:
             else:
                 print(
                     "You found loot worth " + str(
-                        self.coins) + " coins!\nHead back to the shop to trade them in for some goodies ")
+                        self.coins) + " coins!\nHead back to the shop to trade them in for some equipment ")
                 spyro.riches("Increase", self.coins)
                 self.state += 1
                 time.sleep(3)
@@ -265,41 +257,38 @@ class Chests:
 # this is for the shop
 def shop(message_condition):
     shopitems = ["Health Elixir", "Better Sword", "Piece of Armour", ]
-
     if message_condition == 1:
-        print("welcome to the shop\n", shopitems)
-        item = input("what would you like to inspect or type Leave to leave: ")
+        print("Welcome to the Shop\n", shopitems)
     else:
         print(shopitems)
-        item = input("what would you like to inspect or type Leave to leave: ")
+    item = input("What would you like to inspect or type Leave to leave: ")
 
     if item == "Leave":
-        if spyro.get_balance() < 10:
-            print("you awkwardly leave the shop and smash something on they way out")
-            print("you dont have enough coin for the pot you broke so the shop keeper starts roasting you "
-                  "then beats you up\n -10 hp and defence for next fight")
+        if spyro.get_specfic("bank") < 10:
+            print("You awkwardly leave the shop and break something on the way out")
+            print("You don't have enough coin for the pot you broke so the shop keeper starts shouting at you "
+                  "then beats you up\n -10 hp and defence")
             spyro.health("Decrease", 10)
             spyro.defence("Decrease", 10)
             time.sleep(3)
         else:
-            print("you awkwardly leave the shop and smash something on they way out\n -10 coin")
+            print("You awkwardly leave the shop and smash something on the way out\n -10 coin")
             spyro.riches("Decrease", 10)
             time.sleep(3)
 
     elif item == "Health Elixir":
-        print("the health elixir increases your hp by 10 but costs 50 coin")
+        print("The Health Elixir increases your hp by 10 but costs 50 coin")
         outcome = input("B to buy\nL to go back\nEnter option: ")
 
         if outcome != "L" or outcome != "B":
             while outcome != "L" and outcome != "B":
                 outcome = input("B to buy\nL to go back\nEnter option: ")
         if outcome == "B":
-            if spyro.get_balance() >= 50:
+            if spyro.get_specfic("bank") >= 50:
                 spyro.health("Increase", 10)
                 spyro.riches("Decrease", 50)
             else:
-                print("Your broke ass can't afford this")
-
+                print("You are too poor to afford this")
                 outcome2 = input("L to go back: ")
                 while outcome2 != "L" and outcome2 != "B":
                     outcome2 = input("L to go back: ")
@@ -310,19 +299,18 @@ def shop(message_condition):
             shop(message_condition=1)
 
     elif item == "Better Sword":
-        print("you spot a shiny sword that is better than yours\nattack increased by 10 but costs 60 coin")
+        print("You spot a shiny sword that is better than yours\nattack increased by 10 but costs 60 coin")
         outcome = input("B to buy\nL to go back\nEnter option: ")
 
         if outcome != "L" or outcome != "B":
             while outcome != "L" and outcome != "B":
                 outcome = input("B to buy\nL to go back\nEnter option: ")
         if outcome == "B":
-            if spyro.get_balance() >= 60:
+            if spyro.get_specfic("bank") >= 60:
                 spyro.health("Increase", 10)
                 spyro.riches("Decrease", 60)
             else:
-                print("Your broke ass can't afford this")
-
+                print("You are too poor to afford this")
                 outcome2 = input("L to go back: ")
                 while outcome2 != "L" and outcome2 != "B":
                     outcome2 = input("L to go back: ")
@@ -332,18 +320,17 @@ def shop(message_condition):
             shop(message_condition=1)
 
     elif item == "Piece of Armour":
-        print("you spot a shiny piece of armour to add to yourself\ndefence increased by 10 but costs 40 coins")
+        print("You spot a shiny piece of armour to add to yourself\ndefence increased by 10 but costs 40 coins")
         outcome = input("B to buy\nL to go back\nEnter option: ")
         if outcome != "L" or outcome != "B":
             while outcome != "L" and outcome != "B":
                 outcome = input("B to buy\nL to go back\nEnter option: ")
         if outcome == "B":
-            if spyro.get_balance() >= 40:
+            if spyro.get_specfic("bank") >= 40:
                 spyro.health("Increase", 10)
                 spyro.riches("Decrease", 40)
             else:
-                print("Your broke ass can't afford this")
-
+                print("You are too poor to afford this")
                 outcome2 = input("L to go back: ")
                 while outcome2 != "L" and outcome2 != "B":
                     outcome2 = input("L to go back: ")
@@ -353,15 +340,15 @@ def shop(message_condition):
             shop(message_condition=1)
 
     else:
-        print("you murmur something and the shop attendant asks you to leave "
-              "\nyou trip and break your neck, arm and legs on the way out"
+        print("You murmur something and the shop attendant asks you to leave"
+              "\nyou trip and fall, break your neck, arms and legs on the way out"
               "\n-1 hp")
         spyro.health("decrease", 1)
         time.sleep(2)
 
 
 # this is for all fights and each function is named after the fight location/boss
-def fight1():
+def fight1():  # right fight
     while spyro.get_specfic("hp") > 0 and monster1.get_specfic("hp") > 0:
         print("----Combat initiated----")
         print("Your hp is " + str(spyro.get_specfic("hp")))
@@ -383,7 +370,7 @@ def fight1():
             cleanup.spyrodefend()
         monsterchoice = random.randint(1, 2)
         if monsterchoice == 1:
-            print("The Monster Attacks")
+            print("The Monster attacks")
             time.sleep(1)
             monsterattackstat = monster1.get_specfic("attack")
             theattack = random.randint(1, monsterattackstat) - (spyro.get_specfic("defe") / 2)
@@ -401,7 +388,7 @@ def fight1():
 # this is for the shop
 
 
-def fight2():
+def fight2():  # left fight
     while spyro.get_specfic("hp") > 0 and monster2.get_specfic("hp") > 0:
         print("----Combat initiated----")
         print("Your hp is " + str(spyro.get_specfic("hp")))
@@ -440,7 +427,7 @@ def fight2():
             time.sleep(1)
 
 
-def fight3():
+def fight3():  # down fight
     while spyro.get_specfic("hp") > 0 and monster3.get_specfic("hp") > 0:
         print("----Combat initiated----")
         print("Your hp is " + str(spyro.get_specfic("hp")))
@@ -480,8 +467,9 @@ def fight3():
 
 
 def bossbattle():
+    print("This is it, give it your all!")
     while spyro.get_specfic("hp") > 0 and lord_phalp.get_specfic("hp") > 0:
-        print("----Combat initiated----\nThis is it give it your all")
+        print("----Combat initiated----")
         print("Your hp is " + str(spyro.get_specfic("hp")))
         print("The monsters health is " + str(lord_phalp.get_specfic("hp")))
         print("Would you like to\nAttack(1)\nBoost-Defence by 3 + Regain 25 Health(2)")
@@ -566,6 +554,8 @@ class Entity:
             return self.defe
         elif item == "attack":
             return self.att
+        elif item == "bank":
+            return self.bank
 # this is for all entity's in game to get assigned stats
 
 
@@ -573,25 +563,25 @@ class Entity:
 def move_sprite(position, direction):
     x, y = position
 
-    # this is for the center map and connections to other worlds
+    # this is for the center hub -> other worlds
     if direction == "a" and y == 5 and x == 1 and num == 1:  # left map
         maps = "2"
         return maps
-    elif direction == "w" and y == 1 and x == 5 and num == 1:  # up map
-        if monster1.get_specfic("hp") <= 0 and monster2.get_specfic("hp") <= 0 and monster3.get_specfic("hp") <= 0:
-            print("you unlock the bulky door and step through")
-            time.sleep(3)
-            maps = "5"
-            return maps
-        else:
-            print("you done have the keys to open this door yet\ngo get them monsters!!")
-            time.sleep(2)
     elif direction == "d" and y == 5 and x == 9 and num == 1:  # right map
         maps = "4"
         return maps
     elif direction == "s" and y == 9 and x == 5 and num == 1:  # down map
         maps = "3"
         return maps
+    elif direction == "w" and y == 1 and x == 5 and num == 1:  # up map
+        if monster1.get_specfic("hp") <= 0 and monster2.get_specfic("hp") <= 0 and monster3.get_specfic("hp") <= 0:
+            print("CREEEEEEK\nYou unlock the bulky door and step through")
+            time.sleep(3)
+            maps = "5"
+            return maps
+        else:
+            print("You don't have the keys to open this door yet\nGo get them monsters!!")
+            time.sleep(2)
     # this is for the center map and connections to other worlds
 
     # this is for returning to hub-world
@@ -608,43 +598,43 @@ def move_sprite(position, direction):
 
     # this is for the shop
     elif direction == "d" and x == 8 and y == 7 and num == 1:
-        input("press anything to enter shop: ")
+        input("press anything to enter the shop: ")
         shop(message_condition=1)
         x += 1
     elif direction == "w" and x == 9 and y == 8 and num == 1:
-        input("press anything to enter shop: ")
+        input("press anything to enter the shop: ")
         shop(message_condition=1)
         y -= 1
     elif direction == "s" and x == 9 and y == 6 and num == 1:
-        input("press anything to enter shop: ")
+        input("press anything to enter the shop: ")
         shop(message_condition=1)
         y += 1
     # this is for the shop
 
-    # this is for monster fight # -------------------------
+    # this is for monster fights
     elif direction == "d" and x == 5 and y == 5 and num == 4:
         fight1()  # -------right fight
         if spyro.get_specfic("hp") <= 0:
             cleanup.encounter_with_death()
         else:
             x += 1
-            print("you stand atop your defeated fow victorious and with their key in your safekeeping")
+            print("You stand atop your defeated enemy victorious and with their key now in your safekeeping")
             time.sleep(2)
     elif x == 4 and y == 5 and direction == "a" and num == 2:
-        fight2()
+        fight2()  # ------left fight
         if spyro.get_specfic("hp") <= 0:
             cleanup.encounter_with_death()
         else:
             x -= 1
-            print("you stand atop your defeated fow victorious and with their key in your safekeeping")
+            print("You stand atop your defeated enemy victorious and with their key now in your safekeeping")
             time.sleep(2)
     elif x == 5 and y == 7 and direction == "s" and num == 3:
-        fight3()
+        fight3()  # ------down fight
         if spyro.get_specfic("hp") <= 0:
             cleanup.encounter_with_death()
         else:
             y += 1
-            print("you stand atop your defeated fow victorious and with their key in your safekeeping")
+            print("You stand atop your defeated enemy victorious and with their key now in your safekeeping")
             time.sleep(2)
     elif x == 5 and y == 5 and direction == "w" and num == 5:
         bossbattle()
@@ -652,10 +642,22 @@ def move_sprite(position, direction):
             cleanup.encounter_with_death()
         else:
             y += 1
-            print("you stand atop your defeated fow victorious and see loot and your dog")
-            print("the end")
-            print("thanks for playing")
-            time.sleep(9999)
+            print("Lord Phalp collapses in front of you dying, with his last breath he lets out\n'all I wanted was"
+                  " to feel the love you have.")
+            time.sleep(2)
+            print("The Dungeon begins to collapse around you, you spot two things. Your Pup chained up and"
+                  " bag of gold & jewels that will set you for life you only have time to save one, what do you do?")
+            decision = input("Press 1 to save your dog\nPress 2 to get rich")
+            if decision not in [1, 2]:
+                print("You take too long to decide and the ceiling collapses on you")
+                cleanup.end()
+            elif decision == 1:
+                sub.chain()
+                cleanup.end()
+            else:
+                sub.jewel()
+                cleanup.end()
+
     # this is for monster fight # -------------------------
 
     # this is for the chests
@@ -671,9 +673,9 @@ def move_sprite(position, direction):
         leftchest.chest()
     elif direction == "s" and x == 5 and y == 8 and num == 3:
         downchest.chest()
-    elif direction == "s" and x == 9 and y == 8 and num == 4 or direction == "d" and x == 8 and y == 9:
+    elif direction == "s" and x == 9 and y == 8 and num == 4 or direction == "d" and x == 8 and y == 9 and num == 4:
         rightchest1.chest()
-    elif direction == "w" and x == 9 and y == 2 and num == 4 or direction == "d" and x == 8 and y == 1:
+    elif direction == "w" and x == 9 and y == 2 and num == 4 or direction == "d" and x == 8 and y == 1 and num == 4:
         rightchest2.chest()
     # this is for the chests
 
@@ -716,7 +718,7 @@ def move_sprite(position, direction):
         x -= 1
     elif direction == 'd' and x < 9:
         x += 1
-    # basicmoving code
+    # basic moving code
 
     # "that's a wall" code
     elif direction == 'a' or "d" and x == 2:  # this is for left
@@ -732,12 +734,12 @@ def move_sprite(position, direction):
 # ---------------------------------------------------------------------------------------------------------
 
 
-# Where he starts
+# Where the game starts
 sprite_position = (5, 5)
 # difficulty selection
-print("You are Spyro\nThe Evil Lord Phalp has kidnapped your dog and is holding him randsom\nGo on a murderous rampage "
-      "in his dungeon and save that pup\nThe Evil Lord Phalp locked the door to his vault but his three "
-      "monster guards have the keys\nKill them to take the keys and get your dog back!!!")
+print("You are Spyro\nThe Evil Lord Phalp has kidnapped your dog and is holding him ransom\nGo on a murderous rampage "
+      "in his Dungeon and save that pup\nThe Evil Lord Phalp locked the door to his vault but his three "
+      "monster guards have the keys\nKill them to take the keys and get your dog back!")
 time.sleep(3)
 difficulty = input("Enter E to play on Easy or H to play on Hard: ")
 if difficulty != "E" or "H":
@@ -755,6 +757,7 @@ rightchest1 = Chests()
 rightchest2 = Chests()
 downchest = Chests()
 cleanup = CodeCleanUp()
+sub = Minigame()
 # difficulty activated
 if difficulty == "E":
     spyro.health("Increase", 30)

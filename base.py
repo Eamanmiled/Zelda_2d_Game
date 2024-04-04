@@ -183,8 +183,7 @@ class CodeCleanUp:
         if choice == "Y" and spyro.get_specfic("bank") < 25:
             print("The angel appears, but you reach for your pocket and see you are short changed\nThe angel shakes"
                   "his head, reaches out his hand to your shoulder and leads you to eternal damnation")
-            print("THE END\nThank you for playing")
-            time.sleep(9999)
+            self.end()
         elif choice == "Y":
             print("The angel appears and you hand him 25 coins, he whispers in a chilling voice"
                   "\nT I L L   W E   M E E T   A G A I N")
@@ -192,8 +191,7 @@ class CodeCleanUp:
             spyro.health("Increase", 101)
         else:
             print("The dungeon has bested your spirit and you submit\nAtleast you tried")
-            print("THE END\nThank you for playing")
-            time.sleep(9999)
+            self.end()
 
     def end(self):
         print("The End")
@@ -209,31 +207,31 @@ class Minigame:
     def the_minigame(self):
         loot = 3
         while loot > 0:
-            target_area = random.randint(1, 5)  # Randomize the target area's start
-            print(f"Press enter when you think time is between {target_area} and {target_area + 2}")
-            print("Target area starts at:", round(target_area, 2))
+            target = random.randint(1, 5)  # Randomize the target val
+            print(f"Press enter when you think time is between {target} and {target + 2}")
+            print("Target area starts at:", round(target, 2))
             time.sleep(2)
             start_time = time.time()
             input("Press 'Enter' to stop")
             elapsed_time = time.time() - start_time
             print(elapsed_time)
-            if target_area <= elapsed_time <= target_area + 2:
+            if target <= elapsed_time <= target + 2:
                 print("Success!")
                 loot -= 1
             else:
-                print("Failed to unlock the chain. Try again!")
+                print("Failed. Try again before it is too late")
                 time.sleep(2)
 
     def jewel(self):
-        print("You can get another dog with the gold you think to yourself, time to get rich")
+        print("You think to yourself 'You can get another dog with the gold', time to get rich")
         self.the_minigame()
-        print("You got all the gold, now its time for your escape!!!the heavy bag of gold trying to "
-              "find the exit while weighed down")
+        print("You got all the gold, now its time for your escape!!!\nThe heavy bag of gold weighs you down while"
+              " trying to find the exit")
         self.choice = 1
         self.escape_cave()
 
     def chain(self):
-        print("no money could replace my daisy")
+        print("No amount of money could replace my daisy")
         self.the_minigame()
         print("You got daisy, now its time for your escape!!!\nDaisy can sniff the way out making the escape easier")
         self.escape_cave()
@@ -241,14 +239,14 @@ class Minigame:
     def escape_cave(self):
         if self.choice == 1:
             cave_collapse = 4
-            print(f"with the gold weighing you down you have {cave_collapse} attempts to leave")
+            print(f"With the gold weighing you down you have {cave_collapse} attempts to leave")
         else:
             cave_collapse = 8
-            print(f"with daisy you have {cave_collapse} attempts to leave")
+            print(f"With daisy you have {cave_collapse} attempts to leave")
         found_exit = False
         while cave_collapse > 0 and not found_exit:
-            print("\nYou see three paths ahead: left, right, and straight.")
-            input("Which path do you choose? (left/right/straight) ")
+            print("You see three paths ahead: left, right, and straight.")
+            input("Which path do you choose? (left/right/straight): ")
 
             # Randomly determine the outcome of the player's choice
             outcome = random.choice(["dead end", "dead end", "exit"])
@@ -262,17 +260,18 @@ class Minigame:
 
             # Check cave_collapse status
             if cave_collapse <= 0 and self.choice == 1:
-                print("You're out of time. The cave collapses on you and your precious jewels")
+                print("You're out of time. The Dungeon collapses on you and your precious jewels...Was it worth it?")
                 cleanup.end()
             elif cave_collapse <= 0:
-                print("You're out of time. The cave collapses on you and your precious dog")
+                print("You're out of time. The Dungeon collapses on you and Daisy but at least you are both together")
                 cleanup.end()
             else:
-                print(f"time till cave collapse: {cave_collapse}")
+                print(f"time till Dungeon collapse: {cave_collapse}")
 
         # Game over
         if found_exit:
             print("You made it out alive!")
+            time.sleep(2)
             
 # minigame
 
@@ -525,7 +524,7 @@ def bossbattle():
     while spyro.get_specfic("hp") > 0 and lord_phalp.get_specfic("hp") > 0:
         print("----Combat initiated----")
         print("Your hp is " + str(spyro.get_specfic("hp")))
-        print("The monsters health is " + str(lord_phalp.get_specfic("hp")))
+        print("Lord Phalps health is " + str(lord_phalp.get_specfic("hp")))
         print("Would you like to\nAttack(1)\nBoost-Defence by 3 + Regain 25 Health(2)")
         action = input("Decision(1,2): ")
         if action not in ["1", "2"]:
@@ -543,20 +542,20 @@ def bossbattle():
             cleanup.spyrodefend()
         monsterchoice = random.randint(1, 2)
         if monsterchoice == 1:
-            print("The Monster Attacks")
+            print("Lord Phalps Attacks")
             time.sleep(1)
             monsterattackstat = lord_phalp.get_specfic("attack")
             theattack = random.randint(1, monsterattackstat) - (spyro.get_specfic("defe") / 2)
             if theattack > 0:
                 theattack = theattack * -1
-            print("The Monster Does " + str(theattack) + " Damage!")
+            print("Lord Phalps Does " + str(theattack) + " Damage!")
             time.sleep(1)
             spyro.health("Increase", theattack)
         elif monsterchoice == 2:
             lord_phalp.health("Increase", 15)
             lord_phalp.defence("Increase", 3)
-            print("The monster defended and now his hp is " + str(lord_phalp.get_specfic("hp")))
-            print("The monsters defence is now " + str(lord_phalp.get_specfic("defe")))
+            print("Lord Phalps defended and now his hp is " + str(lord_phalp.get_specfic("hp")))
+            print("Lord Phalps defence is now " + str(lord_phalp.get_specfic("defe")))
             time.sleep(1)
 # this is for all fights and each function is named after the fight location/boss
 
@@ -697,25 +696,26 @@ def move_sprite(position, direction):
         else:
             y += 1
             print("Lord Phalp collapses in front of you dying, with his last breath he lets out\n'all I wanted was"
-                  " to feel the love you have.")
+                  " to feel the love you have'")
             time.sleep(2)
-            print("The Dungeon begins to collapse around you, you spot two things. Your Pup chained up and"
-                  " bag of gold & jewels that will set you for life you only have time to save one, what do you do?")
+            print("The Dungeon begins to collapse around you, you spot two things. Daisy chained up and"
+                  " pile of gold & jewels that will set you up for life\n "
+                  "you only have time to save one, what do you do?")
             decision = int(input("Press 1 to save your dog\nPress 2 to get rich"))
             if decision not in [1, 2]:
                 print("You take too long to decide and the ceiling collapses on you")
+                print("Not all Heros win but all Heros try")
                 cleanup.end()
             elif decision == 1:
                 sub.chain()
                 print("You and Daisy head off home after an eventful day, daisy rubs her head into your leg and in that"
-                      "moment you know you made the right choice")
+                      "moment\nYou know you made the right choice")
                 cleanup.end()
             else:
                 sub.jewel()
-                print("With the riches you now have you live a lavish but lonely life...was it worth it")
+                print("With all the riches you now have, you live a lavish but lonely life...\nWas it worth it?")
                 cleanup.end()
-
-    # this is for monster fight # -------------------------
+# this is for monster fight # -------------------------
 
     # this is for the chests
     elif direction == "d" and x == 4 and y == 7 and map_id == 1:

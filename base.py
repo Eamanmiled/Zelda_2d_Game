@@ -206,20 +206,74 @@ class CodeCleanUp:
 class Minigame:
     choice = 0
 
-    def jewel(self):
+    def the_minigame(self):
+        loot = 3
+        while loot > 0:
+            target_area = random.randint(1, 5)  # Randomize the target area's start
+            print(f"Press enter when you think time is between {target_area} and {target_area + 2}")
+            print("Target area starts at:", round(target_area, 2))
+            time.sleep(2)
+            start_time = time.time()
+            input("Press 'Enter' to stop")
+            elapsed_time = time.time() - start_time
+            print(elapsed_time)
+            if target_area <= elapsed_time <= target_area + 2:
+                print("Success!")
+                loot -= 1
+            else:
+                print("Failed to unlock the chain. Try again!")
+                time.sleep(2)
 
+    def jewel(self):
+        print("You can get another dog with the gold you think to yourself, time to get rich")
+        self.the_minigame()
+        print("You got all the gold, now its time for your escape!!!the heavy bag of gold trying to "
+              "find the exit while weighed down")
         self.choice = 1
         self.escape_cave()
-    def chain(self):
 
+    def chain(self):
+        print("no money could replace my daisy")
+        self.the_minigame()
+        print("You got daisy, now its time for your escape!!!\nDaisy can sniff the way out making the escape easier")
         self.escape_cave()
 
     def escape_cave(self):
         if self.choice == 1:
-
-
+            cave_collapse = 4
+            print(f"with the gold weighing you down you have {cave_collapse} attempts to leave")
         else:
-            blah blah
+            cave_collapse = 8
+            print(f"with daisy you have {cave_collapse} attempts to leave")
+        found_exit = False
+        while cave_collapse > 0 and not found_exit:
+            print("\nYou see three paths ahead: left, right, and straight.")
+            input("Which path do you choose? (left/right/straight) ")
+
+            # Randomly determine the outcome of the player's choice
+            outcome = random.choice(["dead end", "dead end", "exit"])
+
+            if outcome == "dead end":
+                print("It's a dead end! You have to turn back.")
+                cave_collapse -= 1
+            elif outcome == "exit":
+                print("You've found the exit!")
+                found_exit = True
+
+            # Check cave_collapse status
+            if cave_collapse <= 0 and self.choice == 1:
+                print("You're out of time. The cave collapses on you and your precious jewels")
+                cleanup.end()
+            elif cave_collapse <= 0:
+                print("You're out of time. The cave collapses on you and your precious dog")
+                cleanup.end()
+            else:
+                print(f"time till cave collapse: {cave_collapse}")
+
+        # Game over
+        if found_exit:
+            print("You made it out alive!")
+            
 # minigame
 
 
@@ -564,16 +618,16 @@ def move_sprite(position, direction):
     x, y = position
 
     # this is for the center hub -> other worlds
-    if direction == "a" and y == 5 and x == 1 and num == 1:  # left map
+    if direction == "a" and y == 5 and x == 1 and map_id == 1:  # left map
         maps = "2"
         return maps
-    elif direction == "d" and y == 5 and x == 9 and num == 1:  # right map
+    elif direction == "d" and y == 5 and x == 9 and map_id == 1:  # right map
         maps = "4"
         return maps
-    elif direction == "s" and y == 9 and x == 5 and num == 1:  # down map
+    elif direction == "s" and y == 9 and x == 5 and map_id == 1:  # down map
         maps = "3"
         return maps
-    elif direction == "w" and y == 1 and x == 5 and num == 1:  # up map
+    elif direction == "w" and y == 1 and x == 5 and map_id == 1:  # up map
         if monster1.get_specfic("hp") <= 0 and monster2.get_specfic("hp") <= 0 and monster3.get_specfic("hp") <= 0:
             print("CREEEEEEK\nYou unlock the bulky door and step through")
             time.sleep(3)
@@ -585,34 +639,34 @@ def move_sprite(position, direction):
     # this is for the center map and connections to other worlds
 
     # this is for returning to hub-world
-    elif direction == "d" and y == 5 and x == 9 and num == 2:  # left->hub map
+    elif direction == "d" and y == 5 and x == 9 and map_id == 2:  # left->hub map
         maps = "1"
         return maps
-    elif direction == "w" and y == 1 and x == 5 and num == 3:  # down->hub map
+    elif direction == "w" and y == 1 and x == 5 and map_id == 3:  # down->hub map
         maps = "1"
         return maps
-    elif direction == "a" and y == 5 and x == 1 and num == 4:  # right->hub map
+    elif direction == "a" and y == 5 and x == 1 and map_id == 4:  # right->hub map
         maps = "1"
         return maps
     # this is for returning to hub-world
 
     # this is for the shop
-    elif direction == "d" and x == 8 and y == 7 and num == 1:
+    elif direction == "d" and x == 8 and y == 7 and map_id == 1:
         input("press anything to enter the shop: ")
         shop(message_condition=1)
         x += 1
-    elif direction == "w" and x == 9 and y == 8 and num == 1:
+    elif direction == "w" and x == 9 and y == 8 and map_id == 1:
         input("press anything to enter the shop: ")
         shop(message_condition=1)
         y -= 1
-    elif direction == "s" and x == 9 and y == 6 and num == 1:
+    elif direction == "s" and x == 9 and y == 6 and map_id == 1:
         input("press anything to enter the shop: ")
         shop(message_condition=1)
         y += 1
     # this is for the shop
 
     # this is for monster fights
-    elif direction == "d" and x == 5 and y == 5 and num == 4:
+    elif direction == "d" and x == 5 and y == 5 and map_id == 4:
         fight1()  # -------right fight
         if spyro.get_specfic("hp") <= 0:
             cleanup.encounter_with_death()
@@ -620,7 +674,7 @@ def move_sprite(position, direction):
             x += 1
             print("You stand atop your defeated enemy victorious and with their key now in your safekeeping")
             time.sleep(2)
-    elif x == 4 and y == 5 and direction == "a" and num == 2:
+    elif x == 4 and y == 5 and direction == "a" and map_id == 2:
         fight2()  # ------left fight
         if spyro.get_specfic("hp") <= 0:
             cleanup.encounter_with_death()
@@ -628,7 +682,7 @@ def move_sprite(position, direction):
             x -= 1
             print("You stand atop your defeated enemy victorious and with their key now in your safekeeping")
             time.sleep(2)
-    elif x == 5 and y == 7 and direction == "s" and num == 3:
+    elif x == 5 and y == 7 and direction == "s" and map_id == 3:
         fight3()  # ------down fight
         if spyro.get_specfic("hp") <= 0:
             cleanup.encounter_with_death()
@@ -636,7 +690,7 @@ def move_sprite(position, direction):
             y += 1
             print("You stand atop your defeated enemy victorious and with their key now in your safekeeping")
             time.sleep(2)
-    elif x == 5 and y == 5 and direction == "w" and num == 5:
+    elif x == 5 and y == 5 and direction == "w" and map_id == 5:
         bossbattle()
         if spyro.get_specfic("hp") <= 0:
             cleanup.encounter_with_death()
@@ -647,65 +701,68 @@ def move_sprite(position, direction):
             time.sleep(2)
             print("The Dungeon begins to collapse around you, you spot two things. Your Pup chained up and"
                   " bag of gold & jewels that will set you for life you only have time to save one, what do you do?")
-            decision = input("Press 1 to save your dog\nPress 2 to get rich")
+            decision = int(input("Press 1 to save your dog\nPress 2 to get rich"))
             if decision not in [1, 2]:
                 print("You take too long to decide and the ceiling collapses on you")
                 cleanup.end()
             elif decision == 1:
                 sub.chain()
+                print("You and Daisy head off home after an eventful day, daisy rubs her head into your leg and in that"
+                      "moment you know you made the right choice")
                 cleanup.end()
             else:
                 sub.jewel()
+                print("With the riches you now have you live a lavish but lonely life...was it worth it")
                 cleanup.end()
 
     # this is for monster fight # -------------------------
 
     # this is for the chests
-    elif direction == "d" and x == 4 and y == 7 and num == 1:
+    elif direction == "d" and x == 4 and y == 7 and map_id == 1:
         hubchest.chest()
-    elif direction == "a" and x == 6 and y == 7 and num == 1:
+    elif direction == "a" and x == 6 and y == 7 and map_id == 1:
         hubchest.chest()
-    elif direction == "s" and x == 5 and y == 6 and num == 1:
+    elif direction == "s" and x == 5 and y == 6 and map_id == 1:
         hubchest.chest()
-    elif direction == "w" and x == 5 and y == 8 and num == 1:
+    elif direction == "w" and x == 5 and y == 8 and map_id == 1:
         hubchest.chest()
-    elif direction == "a" and x == 2 and y == 5 and num == 2:
+    elif direction == "a" and x == 2 and y == 5 and map_id == 2:
         leftchest.chest()
-    elif direction == "s" and x == 5 and y == 8 and num == 3:
+    elif direction == "s" and x == 5 and y == 8 and map_id == 3:
         downchest.chest()
-    elif direction == "s" and x == 9 and y == 8 and num == 4 or direction == "d" and x == 8 and y == 9 and num == 4:
+    elif direction == "s" and x == 9 and y == 8 and map_id == 4 or direction == "d" and x == 8 and y == 9 and map_id == 4:
         rightchest1.chest()
-    elif direction == "w" and x == 9 and y == 2 and num == 4 or direction == "d" and x == 8 and y == 1 and num == 4:
+    elif direction == "w" and x == 9 and y == 2 and map_id == 4 or direction == "d" and x == 8 and y == 1 and map_id == 4:
         rightchest2.chest()
     # this is for the chests
 
     # for wall interact aka you hit a wall dummy
-    elif num == 4 and y == 5 and x in [1, 2, 3, 4, 5, 6] and direction in ["w", "s"]:
+    elif map_id == 4 and y == 5 and x in [1, 2, 3, 4, 5, 6] and direction in ["w", "s"]:
         cleanup.wall()
-    elif num == 4 and y in [1, 2, 3, 4, 6, 7, 8, 9] and x == 7 and direction == "a":
+    elif map_id == 4 and y in [1, 2, 3, 4, 6, 7, 8, 9] and x == 7 and direction == "a":
         cleanup.wall()
-    elif num == 2 and y == 5 and direction in ["w", "s"]:
+    elif map_id == 2 and y == 5 and direction in ["w", "s"]:
         cleanup.wall()
-    elif num == 5 and y == 5 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "w":
+    elif map_id == 5 and y == 5 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "w":
         cleanup.wall()
-    elif num == 5 and y == 3 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "s":
+    elif map_id == 5 and y == 3 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "s":
         cleanup.wall()
-    elif num == 5 and y == 4 and x == 5 and direction in ["a", "d"]:
+    elif map_id == 5 and y == 4 and x == 5 and direction in ["a", "d"]:
         cleanup.wall()
-    elif (num == 3 and y in [1, 5] and x in [2, 3, 4, 5, 6, 7, 8] and direction in ["s", "w"] or num == 3 and y == 5 and
+    elif (map_id == 3 and y in [1, 5] and x in [2, 3, 4, 5, 6, 7, 8] and direction in ["s", "w"] or map_id == 3 and y == 5 and
           x == 9 and direction == "s"):
         cleanup.wall()
-    elif num == 3 and y in [2, 6] and x in [1, 9] and direction == "d" or x == 9 and y == 4 and direction == "a":
+    elif map_id == 3 and y in [2, 6] and x in [1, 9] and direction == "d" or x == 9 and y == 4 and direction == "a":
         cleanup.wall()
-    elif num == 3 and y == 7 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "s":
+    elif map_id == 3 and y == 7 and x in [1, 2, 3, 4, 6, 7, 8, 9] and direction == "s":
         cleanup.wall()
-    elif num == 3 and y == 5 and x < 9 and direction == "w" or num == 3 and y == 5 and x > 1 and direction == "s":
+    elif map_id == 3 and y == 5 and x < 9 and direction == "w" or map_id == 3 and y == 5 and x > 1 and direction == "s":
         cleanup.wall()
-    elif num == 3 and y == 7 and x > 1 and direction == "w":
+    elif map_id == 3 and y == 7 and x > 1 and direction == "w":
         cleanup.wall()
-    elif num == 3 and x == 5 and y in [8, 9] and direction in ["a", "d"]:
+    elif map_id == 3 and x == 5 and y in [8, 9] and direction in ["a", "d"]:
         cleanup.wall()
-    elif num == 3 and y == 3 and x < 9 and direction == "s" or num == 3 and y == 3 and x > 1 and direction == "w":
+    elif map_id == 3 and y == 3 and x < 9 and direction == "s" or map_id == 3 and y == 3 and x > 1 and direction == "w":
         cleanup.wall()
     # for wall interact aka you hit a wall dummy
 
@@ -793,16 +850,16 @@ elif difficulty == "H":
     lord_phalp.defence("Increase", 35)
 
 # CORE GAME LOOP
-num = 1  # start in world 1
+map_id = 1  # start in world 1
 while True:
-    if num == 1:
+    if map_id == 1:
         while True:
             center(sprite_position)
             move = input("check stats = stat\nMove sprite (w, a, s, d): ")  # Hub map
             if move in ['w', 'a', 's', 'd']:
                 sprite_position = move_sprite(sprite_position, move)
                 if sprite_position == "2" or sprite_position == "3" or sprite_position == "4" or sprite_position == "5":
-                    num = int(sprite_position)
+                    map_id = int(sprite_position)
                     break
             elif move == "stat":
                 spyro.return_player_stats()
@@ -810,7 +867,7 @@ while True:
             else:
                 print("Invalid move. Enter w,a,s,d.")
                 time.sleep(2)
-    elif num == 2:  # switch to left map mode
+    elif map_id == 2:  # switch to left map mode
         sprite_position = (9, 5)
         while True:
             left(sprite_position)
@@ -818,7 +875,7 @@ while True:
             if move in ['w', 'a', 's', 'd']:
                 sprite_position = move_sprite(sprite_position, move)
                 if sprite_position == "1":
-                    num = int(sprite_position)
+                    map_id = int(sprite_position)
                     sprite_position = (1, 5)
                     break
             elif move == "stat":
@@ -827,7 +884,7 @@ while True:
             else:
                 print("Invalid move. Enter w,a,s,d.")
                 time.sleep(2)
-    elif num == 3:  # switch to down map mode
+    elif map_id == 3:  # switch to down map mode
         sprite_position = (5, 1)
         while True:
             down(sprite_position)
@@ -835,7 +892,7 @@ while True:
             if move in ['w', 'a', 's', 'd']:
                 sprite_position = move_sprite(sprite_position, move)
                 if sprite_position == "1":
-                    num = int(sprite_position)
+                    map_id = int(sprite_position)
                     sprite_position = (5, 9)
                     break
             elif move == "stat":
@@ -844,7 +901,7 @@ while True:
             else:
                 print("Invalid move. Enter w,a,s,d.")
                 time.sleep(2)
-    elif num == 4:  # switch to right map mode
+    elif map_id == 4:  # switch to right map mode
         sprite_position = (1, 5)
         while True:
             right(sprite_position)
@@ -852,7 +909,7 @@ while True:
             if move in ['w', 'a', 's', 'd']:
                 sprite_position = move_sprite(sprite_position, move)
                 if sprite_position == "1":
-                    num = int(sprite_position)
+                    map_id = int(sprite_position)
                     sprite_position = (9, 5)
                     break
             elif move == "stat":
@@ -861,7 +918,7 @@ while True:
             else:
                 print("Invalid move. Enter w,a,s,d.")
                 time.sleep(2)
-    elif num == 5:  # switch to up map mode
+    elif map_id == 5:  # switch to up map mode
         sprite_position = (5, 9)
         while True:
             up(sprite_position)

@@ -29,6 +29,8 @@ def center(sprite_position):
                 print(' ', end="")
         print()
     print(" H   U   B ")
+
+
 # prints hub
 
 
@@ -55,6 +57,8 @@ def left(sprite_position):
             else:
                 print(' ', end="")
         print()
+
+
 # prints left
 
 
@@ -91,6 +95,8 @@ def down(sprite_position):
             else:
                 print(' ', end="")
         print()
+
+
 # prints down
 
 
@@ -121,6 +127,8 @@ def right(sprite_position):
             else:
                 print(' ', end="")
         print()
+
+
 # prints down
 
 
@@ -157,6 +165,8 @@ def up(sprite_position):
             else:
                 print(' ', end="")
         print()
+
+
 # prints up
 # environment printing
 
@@ -197,6 +207,8 @@ class CodeCleanUp:
         print("The End")
         print("Thanks for playing")
         time.sleep(9999)
+
+
 # I have created this class to clean up the code
 
 
@@ -272,14 +284,15 @@ class Minigame:
         if found_exit:
             print("You made it out alive!")
             time.sleep(2)
-            
+
+
 # minigame
 
 
 # the random chest
 class Chests:
     state = 0
-    coins = random.randint(25, 100)
+    coins = random.randint(40, 100)
 
     def chest(self):
         if self.state == 0:
@@ -304,6 +317,8 @@ class Chests:
         else:
             print("you longingly stare at the empty chest")
             time.sleep(3)
+
+
 # the random chest
 
 
@@ -438,6 +453,8 @@ def fight1():  # right fight
             print("The monster defended and now his hp is " + str(monster1.get_specfic("hp")))
             print("The monsters defence is now " + str(monster1.get_specfic("defe")))
             time.sleep(1)
+
+
 # this is for the shop
 
 
@@ -557,6 +574,8 @@ def bossbattle():
             print("Lord Phalps defended and now his hp is " + str(lord_phalp.get_specfic("hp")))
             print("Lord Phalps defence is now " + str(lord_phalp.get_specfic("defe")))
             time.sleep(1)
+
+
 # this is for all fights and each function is named after the fight location/boss
 
 
@@ -609,6 +628,8 @@ class Entity:
             return self.att
         elif item == "bank":
             return self.bank
+
+
 # this is for all entity's in game to get assigned stats
 
 
@@ -701,12 +722,12 @@ def move_sprite(position, direction):
             print("The Dungeon begins to collapse around you, you spot two things. Daisy chained up and"
                   " pile of gold & jewels that will set you up for life\n "
                   "you only have time to save one, what do you do?")
-            decision = int(input("Press 1 to save your dog\nPress 2 to get rich"))
-            if decision not in [1, 2]:
+            decision = input("Press 1 to save your dog\nPress 2 to get rich\nDecision: ")
+            if decision != "1" and decision != "2":
                 print("You take too long to decide and the ceiling collapses on you")
                 print("Not all Heros win but all Heros try")
                 cleanup.end()
-            elif decision == 1:
+            elif decision == "1":
                 sub.chain()
                 print("You and Daisy head off home after an eventful day, daisy rubs her head into your leg and in that"
                       "moment\nYou know you made the right choice")
@@ -715,7 +736,7 @@ def move_sprite(position, direction):
                 sub.jewel()
                 print("With all the riches you now have, you live a lavish but lonely life...\nWas it worth it?")
                 cleanup.end()
-# this is for monster fight # -------------------------
+    # this is for monster fight # -------------------------
 
     # this is for the chests
     elif direction == "d" and x == 4 and y == 7 and map_id == 1:
@@ -749,7 +770,8 @@ def move_sprite(position, direction):
         cleanup.wall()
     elif map_id == 5 and y == 4 and x == 5 and direction in ["a", "d"]:
         cleanup.wall()
-    elif (map_id == 3 and y in [1, 5] and x in [2, 3, 4, 5, 6, 7, 8] and direction in ["s", "w"] or map_id == 3 and y == 5 and
+    elif (map_id == 3 and y in [1, 5] and x in [2, 3, 4, 5, 6, 7, 8] and direction in ["s",
+                                                                                       "w"] or map_id == 3 and y == 5 and
           x == 9 and direction == "s"):
         cleanup.wall()
     elif map_id == 3 and y in [2, 6] and x in [1, 9] and direction == "d" or x == 9 and y == 4 and direction == "a":
@@ -785,6 +807,8 @@ def move_sprite(position, direction):
     # "that's a wall" code
 
     return x, y
+
+
 # this is the function to move the sprite in boundary and stop him if it's a wall also change maps and interactions
 
 

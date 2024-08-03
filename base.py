@@ -1,5 +1,4 @@
-import random
-import time
+import random, time, os
 
 
 # environment printing
@@ -731,10 +730,24 @@ def move_sprite(position, direction):
                 sub.chain()
                 print("You and Daisy head off home after an eventful day, daisy rubs her head into your leg and in that"
                       "moment\nYou know you made the right choice")
+                print("you finished the game in " + str(move_count))
+                if highscore > move_count:
+                    print("That was your fastest run yet well done!!!")
+                    with open("2DZeldahighscore.txt", "w") as file:
+                        file.write(str(move_count))
+                else:
+                    print("Your fastest time so far has been " + str(highscore))
                 cleanup.end()
             else:
                 sub.jewel()
                 print("With all the riches you now have, you live a lavish but lonely life...\nWas it worth it?")
+                print("you finished the game in " + str(move_count))
+                if highscore > move_count:
+                    print("That was your fastest run yet well done!!!")
+                    with open("2DZeldahighscore.txt", "w") as file:
+                        file.write(move_count)
+                else:
+                    print("Your fastest time so far has been " + str(highscore))
                 cleanup.end()
     # this is for monster fight # -------------------------
 
@@ -874,6 +887,13 @@ elif difficulty == "H":
     lord_phalp.defence("Increase", 35)
 
 # CORE GAME LOOP
+move_count = 0 # to count amount of moves for high score
+highscore = 10000000000000 #easy fix but lazy fix 
+if os.path.exists("2DZeldahighscore.txt"):
+    with open("2DZeldahighscore.txt", "r") as file:
+        score = file.readlines()
+        highscore = int(score[0])
+
 map_id = 1  # start in world 1
 while True:
     if map_id == 1:
@@ -882,6 +902,7 @@ while True:
             move = input("check stats = stat\nMove sprite (w, a, s, d): ")  # Hub map
             if move in ['w', 'a', 's', 'd']:
                 sprite_position = move_sprite(sprite_position, move)
+                move_count += 1
                 if sprite_position == "2" or sprite_position == "3" or sprite_position == "4" or sprite_position == "5":
                     map_id = int(sprite_position)
                     break
@@ -898,6 +919,7 @@ while True:
             move = input("check stats = 'stat'\nMove sprite (w, a, s, d): ")  # left map
             if move in ['w', 'a', 's', 'd']:
                 sprite_position = move_sprite(sprite_position, move)
+                move_count += 1
                 if sprite_position == "1":
                     map_id = int(sprite_position)
                     sprite_position = (1, 5)
@@ -915,6 +937,7 @@ while True:
             move = input("check stats = 'stat'\nMove sprite (w, a, s, d): ")  # down map
             if move in ['w', 'a', 's', 'd']:
                 sprite_position = move_sprite(sprite_position, move)
+                move_count += 1
                 if sprite_position == "1":
                     map_id = int(sprite_position)
                     sprite_position = (5, 9)
@@ -932,6 +955,7 @@ while True:
             move = input("check stats = 'stat'\nMove sprite (w, a, s, d): ")  # right map
             if move in ['w', 'a', 's', 'd']:
                 sprite_position = move_sprite(sprite_position, move)
+                move_count += 1
                 if sprite_position == "1":
                     map_id = int(sprite_position)
                     sprite_position = (9, 5)
@@ -949,6 +973,7 @@ while True:
             move = input("check stats = 'stat'\nMove sprite (w, a, s, d): ")  # up map
             if move in ['w', 'a', 's', 'd']:
                 sprite_position = move_sprite(sprite_position, move)
+                move_count += 1
             elif move == "stat":
                 spyro.return_player_stats()
                 time.sleep(3)

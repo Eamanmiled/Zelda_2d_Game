@@ -6,11 +6,12 @@ In this game, you find yourself in a dark, damp dungeon searching for your kidna
 ## Features
 - **Traversable World**: Move in any direction of the world you want and enjoy exploring.
 - **Combat**: FIGHT those monsters in a text/rng based combat.
-- **Economy**: Spend money and upgrade your character.
+- **Economy**: Spend money and upgrade your character
+- **High Score**: Track the fastest run youve had
 
 ## How to Play
 1. Start the game by running `python base.py`.
 2. Traverse the world and when you encounter any monster begin combat.
 3. Use the following commands to play:
     - `w,a,s,d` to move
-    - `1,2` during combat to either hit ot defend
+    - `1,2` during combat to either hit or defend
